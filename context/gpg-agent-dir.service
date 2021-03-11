@@ -1,0 +1,15 @@
+[Unit]
+Description=Create GnuPG socket directory to allow agent forwarding.
+
+# Try to do this before starting the GPG agent to avoid race conditions. It is
+# unlikely that the other unit is going to be enabled, but if it is, then we
+# will be ok.
+Before=gpg-agent.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/gpgconf --create-socketdir
+
+[Install]
+WantedBy=default.target
