@@ -176,7 +176,8 @@ RUN set -eux; \
 # Prune a bunch of files:
 RUN set -eux; \
   rm -rf /tmp/extensions; \
-  pacman -Scc --noconfirm; \
+  # Remove all cache files:
+  paccache -rk0; \
   echo Done
 
 FROM scratch AS img
