@@ -55,6 +55,7 @@ RUN set -eux; \
     1password-cli \
     amazon-ecr-credential-helper \
     aws-cli-v2-bin \
+    carvel-tools \
     conftest \
     dive \
     flux-bin \
