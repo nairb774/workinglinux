@@ -62,6 +62,7 @@ RUN set -eux; \
     fswatch \
     istio-bin \
     kind-bin \
+    nvm \
     opa \
     protoc-gen-go \
     terraform-docs-bin \
