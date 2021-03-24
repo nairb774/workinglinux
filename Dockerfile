@@ -60,6 +60,7 @@ RUN set -eux; \
     dive \
     flux-bin \
     fswatch \
+    grpcui \
     istio-bin \
     kind-bin \
     nvm \
@@ -107,6 +108,7 @@ RUN set -eux; \
     git \
     go \
     graphviz \
+    grpc-cli \
     jq \
     k9s \
     kubectl \
