@@ -63,6 +63,7 @@ RUN set -eux; \
     grpcui \
     istio-bin \
     kind-bin \
+    mongodb-shell \
     nvm \
     opa \
     protoc-gen-go \
