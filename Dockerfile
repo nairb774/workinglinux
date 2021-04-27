@@ -44,7 +44,6 @@ RUN set -eux; \
 USER aur
 WORKDIR /home/aur/work
 
-COPY --chown=aur:aur /aur .
 RUN set -eux; \
   # Keys used to sign 1password-cli:
   gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22; \
