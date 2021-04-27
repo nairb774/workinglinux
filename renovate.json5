@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "config:base",
+    ":automergeDigest",
+    ":dependencyDashboard",
+    "docker:pinDigests",
+  ],
+  // Allow merges without tests.
+  "requiredStatusChecks": null
+}
