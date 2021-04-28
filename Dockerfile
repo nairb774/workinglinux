@@ -3,32 +3,10 @@ FROM archlinux/archlinux:base-devel@sha256:ff2a0e90e47afbb8aa8bdb702fe5599673bd0
 
 COPY --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
 
-# WORKAROUND for glibc 2.33 and old Docker
-# See https://github.com/actions/virtual-environments/issues/2658
-# Thanks to https://github.com/lxqt/lxqt-panel/pull/1562
-# https://github.com/qutebrowser/qutebrowser/commit/478e4de7bd1f26bebdcdc166d5369b2b5142c3e2
-#
-# Keep an eye on https://bugs.archlinux.org/task/69563 for current state.
-RUN set -eux; \
-  PATCHED_GLIBC=glibc-linux4-2.33-4-x86_64.pkg.tar.zst; \
-  # TODO: Quite sus cn???
-  curl -LO "https://repo.archlinuxcn.org/x86_64/$PATCHED_GLIBC"; \
-  sha256sum -c <<< "a89f4d23ae7cde78b4258deec4fcda975ab53c8cda8b5e0a0735255c0cdc05cc  $PATCHED_GLIBC"; \
-  tar -C / -xvf "$PATCHED_GLIBC"; \
-  rm "$PATCHED_GLIBC"; \
-  echo Done
-
 RUN set -eux; \
   sed -i -e '\|NoExtract  = usr/share/man/\* usr/share/info/\*|d' /etc/pacman.conf; \
   grep -vq usr/share/man /etc/pacman.conf; \
-  pacman -Sy; \
-  pacman -S --noconfirm \
-    # Force upgrade everything (needed becuase of pacman.conf changes). Until
-    # the prior glibc patch is fixed, skip glibc:
-    $(pacman -Qnq | grep -v ^glibc) \
-  ; \
-  # Once glibc problem is gone...
-  # pacman -Suy --noconfirm; \
+  pacman -Suy --noconfirm; \
   echo Done
 
 FROM base AS aur
