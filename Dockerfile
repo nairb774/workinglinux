@@ -84,6 +84,7 @@ RUN set -eux; \
     docker-compose \
     entr \
     git \
+    github-cli \
     go \
     graphviz \
     grpc-cli \
