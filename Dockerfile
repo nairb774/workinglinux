@@ -126,11 +126,13 @@ RUN set -eux; \
   echo Done
 
 # Configure system:
-COPY --chown=root:root /docker-proxy.conf /etc/systemd/system/docker.service.d/docker-proxy.conf
+COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
 COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
   systemctl enable docker.service; \
   systemctl enable docker.socket; \
+  systemctl enable docker-host.service; \
+  systemctl enable docker-host.socket; \
   systemctl enable sshd.service; \
   # Make sure that the /var/run/user/$UID/gnupg dir exists unconditionally.
   systemctl enable --global gpg-agent-dir.service; \

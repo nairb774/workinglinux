@@ -17,7 +17,8 @@ docker run \
   --mount type=bind,source=/sys/fs/fuse,target=/sys/fs/fuse \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock.outer \
   -v "backup:/mnt/backup" \
-  -v "homedir:/home/user" \
+  -v "docker:/var/lib/docker" \
+  -v "homedir:/home/$USER" \
   -v "/opt/restic/backup/$USER:/opt/restic/backup/$USER" \
   -v "$HOME/workinglinux:/mnt/macos" \
   "$@" \
