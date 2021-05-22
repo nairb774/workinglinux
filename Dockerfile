@@ -83,6 +83,7 @@ RUN set -eux; \
     docker \
     docker-compose \
     entr \
+    flatbuffers \
     git \
     github-cli \
     go \
@@ -103,8 +104,8 @@ RUN set -eux; \
     packer \
     pacman-contrib \
     pigz \
-    protobuf \
     postgresql-libs \
+    protobuf \
     pyenv \
     python-pipenv \
     rclone \
