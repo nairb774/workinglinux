@@ -127,6 +127,7 @@ RUN set -eux; \
 
 # Configure system:
 COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
+COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
 COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
   systemctl enable docker.service; \
