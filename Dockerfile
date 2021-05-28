@@ -33,6 +33,7 @@ RUN set -eux; \
     amazon-ecr-credential-helper \
     aws-cli-v2-bin \
     carvel-tools \
+    circleci-cli-bin \
     conftest \
     dive \
     flux-bin \
