@@ -36,6 +36,7 @@ RUN set -eux; \
     dive \
     flux-bin \
     fswatch \
+    go-yq \
     grpcui \
     istio-bin \
     kind-bin \
@@ -81,6 +82,7 @@ RUN set -eux; \
     cmake \
     docker \
     docker-compose \
+    ed \
     entr \
     flatbuffers \
     git \
@@ -118,9 +120,7 @@ RUN set -eux; \
     vim \
     wget \
     yapf \
-    yq \
   ; \
-  echo 'TODO: yq is a really different version...'; \
   tfenv install 0.13.5; \
   [ ! -e /tmp/extensions/post_install.sh ] || /tmp/extensions/post_install.sh; \
   echo Done
