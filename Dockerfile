@@ -25,8 +25,6 @@ WORKDIR /home/aur/work
 RUN set -eux; \
   # Keys used to sign 1password-cli:
   gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22; \
-  # To prevent the GOFLAGS from carrying through:
-  sudo pacman -S --noconfirm go; \
   echo 'TODO: ko'; \
   for PKG in \
     1password-cli \
@@ -50,7 +48,7 @@ RUN set -eux; \
   ; do ( \
     [ -e "$PKG" ] || git clone "https://aur.archlinux.org/$PKG.git" "$PKG"; \
     cd "$PKG"; \
-    GOFLAGS=-mod=mod makepkg -cCs --noconfirm; \
+    makepkg -cCs --noconfirm; \
   ); done; \
   echo Done
 
