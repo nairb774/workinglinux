@@ -46,7 +46,7 @@ RUN set -eux; \
     terraform-docs-bin \
     tfenv \
   ; do ( \
-    [ -e "$PKG" ] || git clone "https://aur.archlinux.org/$PKG.git" "$PKG"; \
+    [ -e "$PKG" ] || git clone --depth=1 "https://aur.archlinux.org/$PKG.git" "$PKG"; \
     cd "$PKG"; \
     makepkg -cCs --noconfirm; \
   ); done; \
