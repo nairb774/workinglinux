@@ -130,9 +130,7 @@ COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/s
 COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
 COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
-  systemctl enable docker.service; \
   systemctl enable docker.socket; \
-  systemctl enable docker-host.service; \
   systemctl enable docker-host.socket; \
   systemctl enable sshd.service; \
   # Make sure that the /var/run/user/$UID/gnupg dir exists unconditionally.
