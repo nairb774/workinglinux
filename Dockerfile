@@ -24,7 +24,7 @@ WORKDIR /home/aur/work
 
 RUN set -eux; \
   # Keys used to sign 1password-cli:
-  gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22; \
+  gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22; \
   echo 'TODO: ko'; \
   for PKG in \
     1password-cli \
