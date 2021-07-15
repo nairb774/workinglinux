@@ -87,6 +87,7 @@ RUN set -eux; \
     flatbuffers \
     git \
     github-cli \
+    gnu-netcat \
     go \
     graphviz \
     grpc-cli \
