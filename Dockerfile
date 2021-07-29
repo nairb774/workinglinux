@@ -120,6 +120,7 @@ RUN set -eux; \
     # For xxd:
     vim \
     wget \
+    whois \
     yapf \
   ; \
   tfenv install 0.13.5; \
