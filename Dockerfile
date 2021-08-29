@@ -37,6 +37,7 @@ RUN set -eux; \
     flux-bin \
     fswatch \
     go-yq \
+    google-cloud-sdk \
     grpcui \
     istio-bin \
     kind-bin \
@@ -77,6 +78,7 @@ RUN set -eux; \
   # Install all the tools we need pre-configured:
   pacman -S --noconfirm \
     bash-completion \
+    bazel \
     bind \
     byobu \
     cmake \
