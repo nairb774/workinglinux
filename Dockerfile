@@ -1,5 +1,5 @@
 # The archlinux/archlinux repo is updated daily:
-FROM archlinux/archlinux:base-devel@sha256:3b47a2829e11a243773bb8f2dc79499676d1e4298179384552229959e2bbb978 AS base
+FROM archlinux/archlinux:base-devel@sha256:e3252b22a5daab5c218b116fde7f17e900dc6a3360604bac49157eb0766b59a8 AS base
 
 COPY --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
 
