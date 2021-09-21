@@ -112,6 +112,7 @@ RUN set -eux; \
     protobuf \
     pyenv \
     python-pipenv \
+    qrencode \
     rclone \
     restic \
     rsync \
