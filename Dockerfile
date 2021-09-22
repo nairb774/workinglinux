@@ -124,6 +124,7 @@ RUN set -eux; \
     vim \
     wget \
     whois \
+    xorg-xauth \
     yapf \
   ; \
   tfenv install 0.13.5; \
@@ -145,6 +146,10 @@ RUN set -eux; \
   # existing sockets.
   echo 'Match User '$USER >> /etc/ssh/sshd_config; \
   echo '  StreamLocalBindUnlink yes' >> /etc/ssh/sshd_config; \
+  # Enable X11 forwarding support as well:
+  echo '  X11Forwarding yes' >> /etc/ssh/sshd_config; \
+  # Also needed for X11 forwarding, but can't be in a match statement:
+  echo 'AddressFamily inet' >> /etc/ssh/sshd_config; \
   echo Done
 
 # Configure user:
