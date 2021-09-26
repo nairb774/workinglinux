@@ -30,6 +30,7 @@ RUN set -eux; \
     1password-cli \
     amazon-ecr-credential-helper \
     aws-cli-v2-bin \
+    bazelisk \
     carvel-tools \
     circleci-cli-bin \
     conftest \
@@ -78,7 +79,6 @@ RUN set -eux; \
   # Install all the tools we need pre-configured:
   pacman -S --noconfirm \
     bash-completion \
-    bazel \
     bind \
     byobu \
     cmake \
