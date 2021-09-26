@@ -78,6 +78,8 @@ RUN set -eux; \
   rm -rf /aur; \
   # Install all the tools we need pre-configured:
   pacman -S --noconfirm \
+    # To force manpages to be added:
+    bash \
     bash-completion \
     bind \
     byobu \
@@ -149,7 +151,7 @@ RUN set -eux; \
   # Enable X11 forwarding support as well:
   echo '  X11Forwarding yes' >> /etc/ssh/sshd_config; \
   # Also needed for X11 forwarding, but can't be in a match statement:
-  echo 'AddressFamily inet' >> /etc/ssh/sshd_config; \
+  sed -i -e 's|#AddressFamily any|AddressFamily inet|' /etc/ssh/sshd_config; \
   echo Done
 
 # Configure user:
