@@ -46,6 +46,8 @@ RUN set -eux; \
     nvm \
     opa \
     protoc-gen-go \
+    rdfind \
+    symlinks \
     terraform-docs-bin \
     tfenv \
   ; do ( \
