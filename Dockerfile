@@ -24,7 +24,18 @@ WORKDIR /home/aur/work
 
 RUN set -eux; \
   # Keys used to sign 1password-cli:
-  gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22; \
+  gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys \
+    # pub   rsa4096 2017-05-18 [SC] [expires: 2025-05-16]
+    #       3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+    # uid           [ unknown] Code signing for 1Password <codesign@1password.com>
+    3FEF9748469ADBE15DA7CA80AC2D62742012EA22 \
+    # pub   rsa4096 2020-08-04 [SC] [expires: 2025-08-03]
+    #       CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB
+    # uid           [ unknown] Paul Dreik (private key) <paul@pauldreik.se>
+    # uid           [ unknown] Rdfind <rdfind@pauldreik.se>
+    # sub   rsa4096 2020-08-04 [E] [expires: 2025-08-03]
+    CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB \
+  ; \
   echo 'TODO: ko'; \
   for PKG in \
     1password-cli \
