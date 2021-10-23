@@ -23,12 +23,13 @@ USER aur
 WORKDIR /home/aur/work
 
 RUN set -eux; \
-  # Keys used to sign 1password-cli:
   gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys \
+    # Keys used to sign 1password-cli:
     # pub   rsa4096 2017-05-18 [SC] [expires: 2025-05-16]
     #       3FEF9748469ADBE15DA7CA80AC2D62742012EA22
     # uid           [ unknown] Code signing for 1Password <codesign@1password.com>
     3FEF9748469ADBE15DA7CA80AC2D62742012EA22 \
+    # Key used to sign rdfind:
     # pub   rsa4096 2020-08-04 [SC] [expires: 2025-08-03]
     #       CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB
     # uid           [ unknown] Paul Dreik (private key) <paul@pauldreik.se>
@@ -74,20 +75,14 @@ ARG USER
 RUN set -eux; \
   # This is needed to prevent the system from trying to configure on boot:
   ln -srf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime; \
-  # We seem to need this for journalctl to be able to start:
-  # systemd-machine-id-setup; \
   useradd -m -G wheel $USER; \
   echo Done
 
-COPY --chown=root:root --from=aur /home/aur/packages/* /aur/packages/
+COPY --chown=root:root --from=aur /home/aur/packages/* /tmp/aur/packages/
 COPY --chown=root:root /extensions /tmp/extensions
 
 RUN set -eux; \
-  # AUR packages - using file:// format to force copy into cache:
-  # pacman -U --noconfirm $(find /aur/packages -type f -printf 'file://%p\n'); \
-  pacman -U --noconfirm /aur/packages/*; \
-  # Remove imported aur files:
-  rm -rf /aur; \
+  pacman -U --noconfirm /tmp/aur/packages/*; \
   # Install all the tools we need pre-configured:
   pacman -S --noconfirm \
     # To force manpages to be added:
@@ -184,7 +179,7 @@ RUN set -eux; \
 
 # Prune a bunch of files:
 RUN set -eux; \
-  rm -rf /tmp/extensions; \
+  rm -rf /tmp/aur /tmp/extensions; \
   # Remove all cache files:
   paccache -rk0; \
   echo Done
