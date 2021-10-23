@@ -36,7 +36,6 @@ RUN set -eux; \
     # sub   rsa4096 2020-08-04 [E] [expires: 2025-08-03]
     CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB \
   ; \
-  echo 'TODO: ko'; \
   for PKG in \
     1password-cli \
     amazon-ecr-credential-helper \
@@ -110,6 +109,7 @@ RUN set -eux; \
     grpc-cli \
     jq \
     k9s \
+    ko \
     kubectl \
     kubeseal \
     kustomize \
