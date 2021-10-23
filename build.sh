@@ -13,7 +13,7 @@ ssh-add -L \
 
 gpg --export --armor > context/generated/gpg-public-keys.asc
 
-exec docker build \
+exec docker buildx build \
   --progress=plain \
   --build-arg=USER="$USER" \
   --file "$PWD/Dockerfile" \
