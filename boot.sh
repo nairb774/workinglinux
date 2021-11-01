@@ -24,6 +24,8 @@ docker run \
   "$@" \
   nairb774/workinglinux
 
-sleep 5
+until nc 127.0.0.1 2222 < /dev/null | grep -q '^SSH-'; do
+  sleep 0.1
+done
 
 exec ssh workinglinux
