@@ -1,69 +1,92 @@
 [submodule "context/aur/1password-cli"]
+	branch = master
 	path = context/aur/1password-cli
 	url = https://aur.archlinux.org/1password-cli.git
 [submodule "context/aur/amazon-ecr-credential-helper"]
+	branch = master
 	path = context/aur/amazon-ecr-credential-helper
 	url = https://aur.archlinux.org/amazon-ecr-credential-helper.git
 [submodule "context/aur/aws-cli-v2-bin"]
+	branch = master
 	path = context/aur/aws-cli-v2-bin
 	url = https://aur.archlinux.org/aws-cli-v2-bin.git
 [submodule "context/aur/bazelisk"]
+	branch = master
 	path = context/aur/bazelisk
 	url = https://aur.archlinux.org/bazelisk.git
 [submodule "context/aur/carvel-tools"]
+	branch = master
 	path = context/aur/carvel-tools
 	url = https://aur.archlinux.org/carvel-tools.git
 [submodule "context/aur/circleci-cli-bin"]
+	branch = master
 	path = context/aur/circleci-cli-bin
 	url = https://aur.archlinux.org/circleci-cli-bin.git
 [submodule "context/aur/conftest"]
+	branch = master
 	path = context/aur/conftest
 	url = https://aur.archlinux.org/conftest.git
 [submodule "context/aur/dive"]
+	branch = master
 	path = context/aur/dive
 	url = https://aur.archlinux.org/dive.git
 [submodule "context/aur/flux-bin"]
+	branch = master
 	path = context/aur/flux-bin
 	url = https://aur.archlinux.org/flux-bin.git
 [submodule "context/aur/fswatch"]
+	branch = master
 	path = context/aur/fswatch
 	url = https://aur.archlinux.org/fswatch.git
 [submodule "context/aur/go-yq"]
+	branch = master
 	path = context/aur/go-yq
 	url = https://aur.archlinux.org/go-yq.git
 [submodule "context/aur/google-cloud-sdk"]
+	branch = master
 	path = context/aur/google-cloud-sdk
 	url = https://aur.archlinux.org/google-cloud-sdk.git
 [submodule "context/aur/grpcui"]
+	branch = master
 	path = context/aur/grpcui
 	url = https://aur.archlinux.org/grpcui.git
 [submodule "context/aur/istio-bin"]
+	branch = master
 	path = context/aur/istio-bin
 	url = https://aur.archlinux.org/istio-bin.git
 [submodule "context/aur/kind-bin"]
+	branch = master
 	path = context/aur/kind-bin
 	url = https://aur.archlinux.org/kind-bin.git
 [submodule "context/aur/mongodb-shell"]
+	branch = master
 	path = context/aur/mongodb-shell
 	url = https://aur.archlinux.org/mongodb-shell.git
 [submodule "context/aur/nvm"]
+	branch = master
 	path = context/aur/nvm
 	url = https://aur.archlinux.org/nvm.git
 [submodule "context/aur/opa"]
+	branch = master
 	path = context/aur/opa
 	url = https://aur.archlinux.org/opa.git
 [submodule "context/aur/protoc-gen-go"]
+	branch = master
 	path = context/aur/protoc-gen-go
 	url = https://aur.archlinux.org/protoc-gen-go.git
 [submodule "context/aur/rdfind"]
+	branch = master
 	path = context/aur/rdfind
 	url = https://aur.archlinux.org/rdfind.git
 [submodule "context/aur/symlinks"]
+	branch = master
 	path = context/aur/symlinks
 	url = https://aur.archlinux.org/symlinks.git
 [submodule "context/aur/terraform-docs-bin"]
+	branch = master
 	path = context/aur/terraform-docs-bin
 	url = https://aur.archlinux.org/terraform-docs-bin.git
 [submodule "context/aur/tfenv"]
+	branch = master
 	path = context/aur/tfenv
 	url = https://aur.archlinux.org/tfenv.git
