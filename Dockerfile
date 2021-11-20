@@ -7,82 +7,6 @@ RUN set -eux; \
   sed -i -e '\|NoExtract  = usr/share/man/\* usr/share/info/\*|d' /etc/pacman.conf; \
   grep -vq usr/share/man /etc/pacman.conf; \
   pacman -Suy --noconfirm; \
-  echo Done
-
-FROM base AS aur
-RUN set -eux; \
-  useradd -m -G wheel aur; \
-  echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/90-wheel-nopw; \
-  echo 'PKGDEST=/home/aur/packages' >> /etc/makepkg.conf; \
-  echo 'SRCDEST=/home/aur/src' >> /etc/makepkg.conf; \
-  pacman -S --noconfirm git; \
-  mkdir -p /home/aur/packages /home/aur/src /home/aur/work; \
-  chown -R aur:aur /home/aur/*; \
-  echo Done
-USER aur
-WORKDIR /home/aur/work
-
-RUN set -eux; \
-  gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys \
-    # Keys used to sign 1password-cli:
-    # pub   rsa4096 2017-05-18 [SC] [expires: 2025-05-16]
-    #       3FEF9748469ADBE15DA7CA80AC2D62742012EA22
-    # uid           [ unknown] Code signing for 1Password <codesign@1password.com>
-    3FEF9748469ADBE15DA7CA80AC2D62742012EA22 \
-    # Key used to sign rdfind:
-    # pub   rsa4096 2020-08-04 [SC] [expires: 2025-08-03]
-    #       CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB
-    # uid           [ unknown] Paul Dreik (private key) <paul@pauldreik.se>
-    # uid           [ unknown] Rdfind <rdfind@pauldreik.se>
-    # sub   rsa4096 2020-08-04 [E] [expires: 2025-08-03]
-    CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB \
-  ; \
-  for PKG in \
-    1password-cli \
-    amazon-ecr-credential-helper \
-    aws-cli-v2-bin \
-    bazelisk \
-    carvel-tools \
-    circleci-cli-bin \
-    conftest \
-    dive \
-    flux-bin \
-    fswatch \
-    go-yq \
-    google-cloud-sdk \
-    grpcui \
-    istio-bin \
-    kind-bin \
-    mongodb-shell \
-    nvm \
-    opa \
-    protoc-gen-go \
-    rdfind \
-    symlinks \
-    terraform-docs-bin \
-    tfenv \
-  ; do ( \
-    [ -e "$PKG" ] || git clone --depth=1 "https://aur.archlinux.org/$PKG.git" "$PKG"; \
-    cd "$PKG"; \
-    makepkg -cCs --noconfirm; \
-  ); done; \
-  echo Done
-
-FROM base AS layer-img
-
-ARG USER
-
-RUN set -eux; \
-  # This is needed to prevent the system from trying to configure on boot:
-  ln -srf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime; \
-  useradd -m -G wheel $USER; \
-  echo Done
-
-COPY --chown=root:root --from=aur /home/aur/packages/* /tmp/aur/packages/
-COPY --chown=root:root /extensions /tmp/extensions
-
-RUN set -eux; \
-  pacman -U --noconfirm /tmp/aur/packages/*; \
   # Install all the tools we need pre-configured:
   pacman -S --noconfirm \
     # To force manpages to be added:
@@ -137,8 +61,57 @@ RUN set -eux; \
     xorg-xauth \
     yapf \
   ; \
+  echo Done
+
+FROM base AS aur
+RUN set -eux; \
+  useradd -m -G wheel aur; \
+  echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/90-wheel-nopw; \
+  echo 'PKGDEST=/home/aur/packages' >> /etc/makepkg.conf; \
+  echo 'SRCDEST=/home/aur/src' >> /etc/makepkg.conf; \
+  pacman -S --noconfirm git; \
+  mkdir -p /home/aur/packages /home/aur/src /home/aur/work; \
+  chown -R aur:aur /home/aur/*; \
+  echo Done
+USER aur
+WORKDIR /home/aur/work
+
+RUN --mount=type=bind,source=/aur,target=/home/aur/work,rw \
+  set -eux; \
+  gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys \
+    # Keys used to sign 1password-cli:
+    # pub   rsa4096 2017-05-18 [SC] [expires: 2025-05-16]
+    #       3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+    # uid           [ unknown] Code signing for 1Password <codesign@1password.com>
+    3FEF9748469ADBE15DA7CA80AC2D62742012EA22 \
+    # Key used to sign rdfind:
+    # pub   rsa4096 2020-08-04 [SC] [expires: 2025-08-03]
+    #       CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB
+    # uid           [ unknown] Paul Dreik (private key) <paul@pauldreik.se>
+    # uid           [ unknown] Rdfind <rdfind@pauldreik.se>
+    # sub   rsa4096 2020-08-04 [E] [expires: 2025-08-03]
+    CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB \
+  ; \
+  sudo chown -R aur:aur /home/aur/work; \
+  for PKG in *; do ( \
+    cd "$PKG"; \
+    makepkg -cCs --noconfirm; \
+  ); done; \
+  echo Done
+
+FROM base AS layer-img
+
+ARG USER
+
+RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/packages \
+    --mount=type=bind,source=/extensions,target=/tmp/bind/extensions \
+  set -eux; \
+  # This is needed to prevent the system from trying to configure on boot:
+  ln -srf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime; \
+  useradd -m -G wheel $USER; \
+  pacman -U --noconfirm /tmp/bind/aur/packages/*; \
   tfenv install 0.13.5; \
-  [ ! -e /tmp/extensions/post_install.sh ] || /tmp/extensions/post_install.sh; \
+  [ ! -e /tmp/bind/extensions/post_install.sh ] || /tmp/bind/extensions/post_install.sh; \
   echo Done
 
 # Configure system:
@@ -179,9 +152,9 @@ RUN set -eux; \
 
 # Prune a bunch of files:
 RUN set -eux; \
-  rm -rf /tmp/aur /tmp/extensions; \
   # Remove all cache files:
   paccache -rk0; \
+  rm -rf /tmp/bind; \
   echo Done
 
 FROM scratch AS img

@@ -1,0 +1,69 @@
+[submodule "context/aur/1password-cli"]
+	path = context/aur/1password-cli
+	url = https://aur.archlinux.org/1password-cli.git
+[submodule "context/aur/amazon-ecr-credential-helper"]
+	path = context/aur/amazon-ecr-credential-helper
+	url = https://aur.archlinux.org/amazon-ecr-credential-helper.git
+[submodule "context/aur/aws-cli-v2-bin"]
+	path = context/aur/aws-cli-v2-bin
+	url = https://aur.archlinux.org/aws-cli-v2-bin.git
+[submodule "context/aur/bazelisk"]
+	path = context/aur/bazelisk
+	url = https://aur.archlinux.org/bazelisk.git
+[submodule "context/aur/carvel-tools"]
+	path = context/aur/carvel-tools
+	url = https://aur.archlinux.org/carvel-tools.git
+[submodule "context/aur/circleci-cli-bin"]
+	path = context/aur/circleci-cli-bin
+	url = https://aur.archlinux.org/circleci-cli-bin.git
+[submodule "context/aur/conftest"]
+	path = context/aur/conftest
+	url = https://aur.archlinux.org/conftest.git
+[submodule "context/aur/dive"]
+	path = context/aur/dive
+	url = https://aur.archlinux.org/dive.git
+[submodule "context/aur/flux-bin"]
+	path = context/aur/flux-bin
+	url = https://aur.archlinux.org/flux-bin.git
+[submodule "context/aur/fswatch"]
+	path = context/aur/fswatch
+	url = https://aur.archlinux.org/fswatch.git
+[submodule "context/aur/go-yq"]
+	path = context/aur/go-yq
+	url = https://aur.archlinux.org/go-yq.git
+[submodule "context/aur/google-cloud-sdk"]
+	path = context/aur/google-cloud-sdk
+	url = https://aur.archlinux.org/google-cloud-sdk.git
+[submodule "context/aur/grpcui"]
+	path = context/aur/grpcui
+	url = https://aur.archlinux.org/grpcui.git
+[submodule "context/aur/istio-bin"]
+	path = context/aur/istio-bin
+	url = https://aur.archlinux.org/istio-bin.git
+[submodule "context/aur/kind-bin"]
+	path = context/aur/kind-bin
+	url = https://aur.archlinux.org/kind-bin.git
+[submodule "context/aur/mongodb-shell"]
+	path = context/aur/mongodb-shell
+	url = https://aur.archlinux.org/mongodb-shell.git
+[submodule "context/aur/nvm"]
+	path = context/aur/nvm
+	url = https://aur.archlinux.org/nvm.git
+[submodule "context/aur/opa"]
+	path = context/aur/opa
+	url = https://aur.archlinux.org/opa.git
+[submodule "context/aur/protoc-gen-go"]
+	path = context/aur/protoc-gen-go
+	url = https://aur.archlinux.org/protoc-gen-go.git
+[submodule "context/aur/rdfind"]
+	path = context/aur/rdfind
+	url = https://aur.archlinux.org/rdfind.git
+[submodule "context/aur/symlinks"]
+	path = context/aur/symlinks
+	url = https://aur.archlinux.org/symlinks.git
+[submodule "context/aur/terraform-docs-bin"]
+	path = context/aur/terraform-docs-bin
+	url = https://aur.archlinux.org/terraform-docs-bin.git
+[submodule "context/aur/tfenv"]
+	path = context/aur/tfenv
+	url = https://aur.archlinux.org/tfenv.git
