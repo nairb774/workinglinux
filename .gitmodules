@@ -78,6 +78,10 @@
 	branch = master
 	path = context/aur/rdfind
 	url = https://aur.archlinux.org/rdfind.git
+[submodule "context/aur/reviewdog-bin"]
+	branch = master
+	path = context/aur/reviewdog-bin
+	url = https://aur.archlinux.org/reviewdog-bin.git
 [submodule "context/aur/symlinks"]
 	branch = master
 	path = context/aur/symlinks
