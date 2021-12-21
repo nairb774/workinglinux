@@ -42,6 +42,7 @@ RUN set -eux; \
     packer \
     pacman-contrib \
     pigz \
+    poetry \
     postgresql-libs \
     protobuf \
     pyenv \
