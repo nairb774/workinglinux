@@ -30,6 +30,10 @@
 	branch = master
 	path = context/aur/dive
 	url = https://aur.archlinux.org/dive.git
+[submodule "context/aur/dyff-bin"]
+	branch = master
+	path = context/aur/dyff-bin
+	url = https://aur.archlinux.org/dyff-bin.git
 [submodule "context/aur/flux-bin"]
 	branch = master
 	path = context/aur/flux-bin
