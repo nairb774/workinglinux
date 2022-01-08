@@ -36,6 +36,7 @@ RUN set -eux; \
     man-db \
     man-pages \
     neovim \
+    nmap \
     nodejs \
     npm \
     openssh \
