@@ -112,7 +112,7 @@ RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/pa
   ln -srf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime; \
   useradd -m -G wheel $USER; \
   pacman -U --noconfirm /tmp/bind/aur/packages/*; \
-  tfenv install 0.13.7; \
+  tfenv install 0.14.11; \
   [ ! -e /tmp/bind/extensions/post_install.sh ] || /tmp/bind/extensions/post_install.sh; \
   echo Done
 
