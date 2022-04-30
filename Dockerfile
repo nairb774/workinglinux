@@ -24,6 +24,7 @@ RUN set -eux; \
     github-cli \
     gnu-netcat \
     go \
+    go-yq \
     graphviz \
     grpc-cli \
     jq \

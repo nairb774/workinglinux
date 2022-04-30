@@ -46,10 +46,6 @@
   branch = master
 	path = context/aur/go-crane-bin
 	url = https://aur.archlinux.org/go-crane-bin.git
-[submodule "context/aur/go-yq"]
-	branch = master
-	path = context/aur/go-yq
-	url = https://aur.archlinux.org/go-yq.git
 [submodule "context/aur/google-cloud-sdk"]
 	branch = master
 	path = context/aur/google-cloud-sdk
