@@ -110,7 +110,12 @@ RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/pa
     --mount=type=bind,source=/extensions,target=/tmp/bind/extensions \
   set -eux; \
   # This is needed to prevent the system from trying to configure on boot:
-  ln -srf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime; \
+  systemd-firstboot \
+    --hostname workinglinux \
+    --keymap us \
+    --locale en_US.UTF-8 \
+    --timezone America/Los_Angeles \
+  ; \
   useradd -m -G wheel $USER; \
   pacman -U --noconfirm /tmp/bind/aur/packages/*; \
   tfenv install 0.14.11; \
@@ -122,6 +127,18 @@ COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/s
 COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
 COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
+  # Disable services that don't make sense in a container. See:
+  # https://github.com/nestybox/sysbox/blob/4c1ed53119823adf76fcac67fa5ac74344dc79ca/docs/user-guide/systemd.md
+  systemctl mask \
+    systemd-firstboot.service \
+    systemd-journald-audit.socket \
+    systemd-networkd-wait-online.service \
+    systemd-udev-trigger.service \
+  ; \
+  # Switch to multi-user as the default (not graphical). See:
+  # https://github.com/nestybox/dockerfiles/blob/d87306e01a9ff525e2a5a7645278ab56568e2923/archlinux-systemd/Dockerfile
+  systemctl set-default multi-user.target; \
+  # Enable some base services:
   systemctl enable docker.socket; \
   systemctl enable docker-host.socket; \
   systemctl enable sshd.service; \
