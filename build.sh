@@ -16,6 +16,7 @@ gpg --export --armor > context/generated/gpg-public-keys.asc
 exec docker buildx build \
   --progress=plain \
   --build-arg=USER="$USER" \
+  --label git-commit="$(git rev-parse HEAD)" \
   --file "$PWD/Dockerfile" \
   --tag nairb774/workinglinux \
   --target img \
