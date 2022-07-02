@@ -1,7 +1,9 @@
+# syntax=docker/dockerfile:1.4@sha256:ffe9970c1ffceffcddcca4012f5efac0a36716314539ad8016a9ff386b95a98e
+
 # The archlinux/archlinux repo is updated daily:
 FROM archlinux/archlinux:base-devel@sha256:5b2bbd7dbc91b522a507c03e02a55fc351f0a6ae29d5d40fb75839775d3fecf1 AS base
 
-COPY --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
+COPY --link --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
 
 RUN set -eux; \
   sed -i -e '\|NoExtract  = usr/share/man/\* usr/share/info/\*|d' /etc/pacman.conf; \
@@ -125,9 +127,9 @@ RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/pa
   echo Done
 
 # Configure system:
-COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
-COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
-COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
+COPY --link --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
+COPY --link --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
+COPY --link --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
   # Disable services that don't make sense in a container. See:
   # https://github.com/nestybox/sysbox/blob/4c1ed53119823adf76fcac67fa5ac74344dc79ca/docs/user-guide/systemd.md
@@ -158,8 +160,8 @@ RUN set -eux; \
   echo Done
 
 # Configure user:
-COPY --chown=$USER:$USER /generated/authorized_keys /home/$USER/.ssh/authorized_keys
-COPY --chown=$USER:$USER /generated/gpg-public-keys.asc /home/$USER/gpg-public-keys.asc
+COPY --link --chown=$USER:$USER /generated/authorized_keys /home/$USER/.ssh/authorized_keys
+COPY --link --chown=$USER:$USER /generated/gpg-public-keys.asc /home/$USER/gpg-public-keys.asc
 RUN set -eux; \
   usermod -a -G docker $USER; \
   usermod -a -G tfenv $USER; \
@@ -182,7 +184,7 @@ RUN set -eux; \
 FROM scratch AS img
 
 # We make a single layer image with all the files:
-COPY --from=layer-img / /
+COPY --link --from=layer-img / /
 ENV container=docker
 ENTRYPOINT ["/usr/lib/systemd/systemd"]
 CMD ["--log-level=info", "--unit=multi-user.target"]
