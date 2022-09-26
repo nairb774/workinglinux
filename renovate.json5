@@ -10,4 +10,15 @@
   "git-submodules": {
     "enabled": true,
   },
+  "regexManagers": [
+    {
+      "description": "Update Dockerfile syntax line.",
+      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "matchStrings": [
+        "# syntax=(?<depName>.*?):(?<currentValue>.*?)(?:@(?<currentDigest>sha256:[a-f0-9]+))?(?:\\s|$)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}",
+    },
+  ],
 }
