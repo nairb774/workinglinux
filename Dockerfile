@@ -18,6 +18,7 @@ RUN set -eux; \
     byobu \
     cmake \
     docker \
+    docker-buildx \
     docker-compose \
     ed \
     entr \
