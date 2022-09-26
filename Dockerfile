@@ -77,7 +77,6 @@ RUN set -eux; \
   echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/90-wheel-nopw; \
   echo 'PKGDEST=/home/aur/packages' >> /etc/makepkg.conf; \
   echo 'SRCDEST=/home/aur/src' >> /etc/makepkg.conf; \
-  pacman -S --noconfirm git; \
   mkdir -p /home/aur/packages /home/aur/src /home/aur/work; \
   chown -R aur:aur /home/aur/*; \
   echo Done
