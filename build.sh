@@ -13,7 +13,7 @@ ssh-add -L \
 
 gpg --export --armor > context/generated/gpg-public-keys.asc
 
-exec docker buildx build \
+exec limactl shell workinglinux sudo nerdctl build \
   --progress=plain \
   --build-arg=USER="$USER" \
   --label git-commit="$(git rev-parse HEAD)" \

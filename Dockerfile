@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4@sha256:f2e1edebd1f6deb247a04673878e6883f3c5f28d7cc9ae05abbb9b6ab67a09b8
+# syntax=docker/dockerfile:1.4
 
 # The archlinux/archlinux repo is updated daily:
 FROM archlinux/archlinux:base-devel@sha256:56f4b152f5aec1a26c6bb49da17c2240795d35ca3ec3f44a362e466c8510015a AS base
@@ -128,7 +128,7 @@ RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/pa
 
 # Configure system:
 COPY --link --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
-COPY --link --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
+COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
 COPY --link --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
   # Disable services that don't make sense in a container. See:
@@ -160,8 +160,8 @@ RUN set -eux; \
   echo Done
 
 # Configure user:
-COPY --link --chown=$USER:$USER /generated/authorized_keys /home/$USER/.ssh/authorized_keys
-COPY --link --chown=$USER:$USER /generated/gpg-public-keys.asc /home/$USER/gpg-public-keys.asc
+COPY --chown=$USER:$USER /generated/authorized_keys /home/$USER/.ssh/authorized_keys
+COPY --chown=$USER:$USER /generated/gpg-public-keys.asc /home/$USER/gpg-public-keys.asc
 RUN set -eux; \
   usermod -a -G docker $USER; \
   usermod -a -G tfenv $USER; \
