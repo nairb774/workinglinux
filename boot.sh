@@ -2,9 +2,11 @@
 
 cd "${0/*}"
 
-docker rm workinglinux
+gpg --card-status
 
-docker run \
+limactl shell workinglinux sudo nerdctl rm workinglinux
+
+limactl shell workinglinux sudo nerdctl run \
   --name workinglinux \
   --detach \
   --privileged \
@@ -13,13 +15,9 @@ docker run \
   --mount type=tmpfs,destination=/run \
   --mount type=tmpfs,destination=/run/lock \
   --mount type=bind,source=/,target=/mnt/host \
-  --mount type=bind,source=/sys/fs/cgroup,target=/sys/fs/cgroup \
-  --mount type=bind,source=/sys/fs/fuse,target=/sys/fs/fuse \
-  --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock.outer \
   -v "backup:/mnt/backup" \
   -v "docker:/var/lib/docker" \
   -v "homedir:/home/$USER" \
-  -v "/opt/restic/backup/$USER:/opt/restic/backup/$USER" \
   -v "$HOME/workinglinux:/mnt/macos" \
   "$@" \
   nairb774/workinglinux
