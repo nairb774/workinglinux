@@ -74,6 +74,10 @@
 	branch = master
 	path = context/aur/opa
 	url = https://aur.archlinux.org/opa.git
+[submodule "context/aur/ookla-speedtest-bin"]
+	branch = master
+	path = context/aur/ookla-speedtest-bin
+	url = https://aur.archlinux.org/ookla-speedtest-bin.git
 [submodule "context/aur/protoc-gen-go"]
 	branch = master
 	path = context/aur/protoc-gen-go
