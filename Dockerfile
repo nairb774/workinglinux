@@ -60,6 +60,7 @@ RUN set -eux; \
     skopeo \
     socat \
     stow \
+    unzip \
     # For xxd:
     vim \
     wget \
