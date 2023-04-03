@@ -3,7 +3,7 @@
 # The archlinux/archlinux repo is updated daily:
 FROM archlinux/archlinux:base-devel@sha256:99c36ee1e5ec909ad233bc67c6f22ce0a8bc70c8231ce103a526a9365c1bf100 AS base
 
-COPY --link --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
+COPY --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
 
 RUN set -eux; \
   sed -i -e '\|NoExtract  = usr/share/man/\* usr/share/info/\*|d' /etc/pacman.conf; \
@@ -127,9 +127,9 @@ RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/pa
   echo Done
 
 # Configure system:
-COPY --link --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
+COPY --chown=root:root /docker-host.socket /docker-host.service /usr/local/lib/systemd/system/
 COPY --chown=root:docker /docker-daemon.json /etc/docker/daemon.json
-COPY --link --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
+COPY --chown=root:root /gpg-agent-dir.service /etc/systemd/user/gpg-agent-dir.service
 RUN set -eux; \
   # Disable services that don't make sense in a container. See:
   # https://github.com/nestybox/sysbox/blob/4c1ed53119823adf76fcac67fa5ac74344dc79ca/docs/user-guide/systemd.md
