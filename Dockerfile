@@ -74,18 +74,15 @@ RUN set -eux; \
 
 FROM base AS aur
 RUN set -eux; \
-  useradd -m -G wheel aur; \
+  useradd -u 1100 -m -G wheel aur; \
   echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/90-wheel-nopw; \
   echo 'PKGDEST=/home/aur/packages' >> /etc/makepkg.conf; \
   echo 'SRCDEST=/home/aur/src' >> /etc/makepkg.conf; \
-  mkdir -p /home/aur/packages /home/aur/src /home/aur/work; \
-  chown -R aur:aur /home/aur/*; \
+  touch -t 197001010000 /next; \
   echo Done
 USER aur
-WORKDIR /home/aur/work
-
-RUN --mount=type=bind,source=/aur,target=/home/aur/work,rw \
-  set -eux; \
+RUN set -eux; \
+  mkdir -p /home/aur/packages /home/aur/src /home/aur/work; \
   gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys \
     # Keys used to sign 1password-cli:
     # pub   rsa4096 2017-05-18 [SC] [expires: 2025-05-16]
@@ -100,18 +97,171 @@ RUN --mount=type=bind,source=/aur,target=/home/aur/work,rw \
     # sub   rsa4096 2020-08-04 [E] [expires: 2025-08-03]
     CC3C51BA88205B19728A6F07C9D9A0EA44EAE0EB \
   ; \
-  sudo chown -R aur:aur /home/aur/work; \
-  for PKG in *; do ( \
-    cd "$PKG"; \
-    makepkg -cCs --noconfirm; \
-  ); done; \
   echo Done
+WORKDIR /home/aur/work
+
+FROM aur AS aur_1password-cli
+COPY --chown=1100:1100 /aur/1password-cli /home/aur/work
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_amazon-ecr-credential-helper
+COPY --chown=1100:1100 /aur/amazon-ecr-credential-helper /home/aur/work
+COPY --from=aur_1password-cli /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_aws-cli-v2-bin
+COPY --chown=1100:1100 /aur/aws-cli-v2-bin /home/aur/work
+COPY --from=aur_amazon-ecr-credential-helper /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_bazelisk
+COPY --chown=1100:1100 /aur/bazelisk /home/aur/work
+COPY --from=aur_aws-cli-v2-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_carvel-tools
+COPY --chown=1100:1100 /aur/carvel-tools /home/aur/work
+COPY --from=aur_bazelisk /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_circleci-cli-bin
+COPY --chown=1100:1100 /aur/circleci-cli-bin /home/aur/work
+COPY --from=aur_carvel-tools /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_conftest
+COPY --chown=1100:1100 /aur/conftest /home/aur/work
+COPY --from=aur_circleci-cli-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_dive
+COPY --chown=1100:1100 /aur/dive /home/aur/work
+COPY --from=aur_conftest /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_dyff-bin
+COPY --chown=1100:1100 /aur/dyff-bin /home/aur/work
+COPY --from=aur_dive /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_flux-bin
+COPY --chown=1100:1100 /aur/flux-bin /home/aur/work
+COPY --from=aur_dyff-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_fswatch
+COPY --chown=1100:1100 /aur/fswatch /home/aur/work
+COPY --from=aur_flux-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_go-crane-bin
+COPY --chown=1100:1100 /aur/go-crane-bin /home/aur/work
+COPY --from=aur_fswatch /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_google-cloud-sdk
+COPY --chown=1100:1100 /aur/google-cloud-sdk /home/aur/work
+COPY --from=aur_go-crane-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_grpcui
+COPY --chown=1100:1100 /aur/grpcui /home/aur/work
+COPY --from=aur_google-cloud-sdk /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_istio-bin
+COPY --chown=1100:1100 /aur/istio-bin /home/aur/work
+COPY --from=aur_grpcui /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_kind-bin
+COPY --chown=1100:1100 /aur/kind-bin /home/aur/work
+COPY --from=aur_istio-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_mongodb-shell
+COPY --chown=1100:1100 /aur/mongodb-shell /home/aur/work
+COPY --from=aur_kind-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_nvm
+COPY --chown=1100:1100 /aur/nvm /home/aur/work
+COPY --from=aur_mongodb-shell /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_ookla-speedtest-bin
+COPY --chown=1100:1100 /aur/ookla-speedtest-bin /home/aur/work
+COPY --from=aur_nvm /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_opa
+COPY --chown=1100:1100 /aur/opa /home/aur/work
+COPY --from=aur_ookla-speedtest-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_protoc-gen-go
+COPY --chown=1100:1100 /aur/protoc-gen-go /home/aur/work
+COPY --from=aur_opa /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_rdfind
+COPY --chown=1100:1100 /aur/rdfind /home/aur/work
+COPY --from=aur_protoc-gen-go /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_reviewdog-bin
+COPY --chown=1100:1100 /aur/reviewdog-bin /home/aur/work
+COPY --from=aur_rdfind /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_symlinks
+COPY --chown=1100:1100 /aur/symlinks /home/aur/work
+COPY --from=aur_reviewdog-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_terraform-docs-bin
+COPY --chown=1100:1100 /aur/terraform-docs-bin /home/aur/work
+COPY --from=aur_symlinks /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM aur AS aur_tfenv
+COPY --chown=1100:1100 /aur/tfenv /home/aur/work
+COPY --from=aur_terraform-docs-bin /next /next
+RUN makepkg -cCs --noconfirm
+
+FROM scratch AS aur-packages
+COPY --from=aur_1password-cli --link /home/aur/packages/* /packages/
+COPY --from=aur_amazon-ecr-credential-helper --link /home/aur/packages/* /packages/
+COPY --from=aur_aws-cli-v2-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_bazelisk --link /home/aur/packages/* /packages/
+COPY --from=aur_carvel-tools --link /home/aur/packages/* /packages/
+COPY --from=aur_circleci-cli-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_conftest --link /home/aur/packages/* /packages/
+COPY --from=aur_dive --link /home/aur/packages/* /packages/
+COPY --from=aur_dyff-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_flux-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_fswatch --link /home/aur/packages/* /packages/
+COPY --from=aur_go-crane-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_google-cloud-sdk --link /home/aur/packages/* /packages/
+COPY --from=aur_grpcui --link /home/aur/packages/* /packages/
+COPY --from=aur_istio-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_kind-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_mongodb-shell --link /home/aur/packages/* /packages/
+COPY --from=aur_nvm --link /home/aur/packages/* /packages/
+COPY --from=aur_ookla-speedtest-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_opa --link /home/aur/packages/* /packages/
+COPY --from=aur_protoc-gen-go --link /home/aur/packages/* /packages/
+COPY --from=aur_rdfind --link /home/aur/packages/* /packages/
+COPY --from=aur_reviewdog-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_symlinks --link /home/aur/packages/* /packages/
+COPY --from=aur_terraform-docs-bin --link /home/aur/packages/* /packages/
+COPY --from=aur_tfenv --link /home/aur/packages/* /packages/
 
 FROM base AS layer-img
 
 ARG USER
 
-RUN --mount=type=bind,from=aur,source=/home/aur/packages,target=/tmp/bind/aur/packages \
+RUN --mount=type=bind,from=aur-packages,source=/packages,target=/tmp/bind/aur/packages \
     --mount=type=bind,source=/extensions,target=/tmp/bind/extensions \
   set -eux; \
   # This is needed to prevent the system from trying to configure on boot:
