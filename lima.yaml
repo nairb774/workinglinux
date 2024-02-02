@@ -30,6 +30,9 @@ mounts:
     protocolVersion: 9p2000.L
     msize: 128KiB
     cache: fscache
+- location: "/opt/restic/backup"
+  mountPoint: "/opt/restic/backup"
+  writable: true
 - location: "/tmp/lima"
   mountPoint: "/tmp/lima"
   writable: true

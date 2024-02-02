@@ -10,6 +10,7 @@ limactl shell workinglinux sudo nerdctl run \
   --name workinglinux \
   --detach \
   --privileged \
+  --cgroupns=host \
   --publish 2222:22 \
   --mount type=tmpfs,destination=/tmp \
   --mount type=tmpfs,destination=/run \

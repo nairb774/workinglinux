@@ -7,6 +7,7 @@ cd "${0%/*}"
 rm -rf context/generated
 mkdir context/generated
 
+gpg --card-status
 ssh-add -L \
   | grep cardno \
   > context/generated/authorized_keys

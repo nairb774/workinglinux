@@ -273,7 +273,7 @@ RUN --mount=type=bind,from=aur-packages,source=/packages,target=/tmp/bind/aur/pa
   ; \
   useradd -m -G wheel $USER; \
   pacman -U --noconfirm /tmp/bind/aur/packages/*; \
-  tfenv install 1.2.9; \
+  tfenv install 1.5.4; \
   [ ! -e /tmp/bind/extensions/post_install.sh ] || /tmp/bind/extensions/post_install.sh; \
   echo Done
 
