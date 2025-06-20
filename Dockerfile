@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4@sha256:9ba7531bd80fb0a858632727cf7a112fbfd19b17e94c4e84ced81e24ef1a0dbc
+# syntax=docker/dockerfile:1.17@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
 
 # The archlinux/archlinux repo is updated daily:
 FROM archlinux/archlinux:base-devel@sha256:bb65565339bc121523f041c56cd9d7671b390573698c6b3a738d350a4eea5369 AS base
