@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4@sha256:9ba7531bd80fb0a858632727cf7a112fbfd19b17e94c4e84ced81e24ef1a0dbc
 
 # The archlinux/archlinux repo is updated daily:
-FROM archlinux/archlinux:base-devel@sha256:b5488aa43b21c5f006bceb0afbe30e8de033f4bc029d97d3a364df6292b014e4 AS base
+FROM archlinux/archlinux:base-devel@sha256:8ac61b504dc28b651429f95267bce4733b5f5668a52887830601221dddd4c6e0 AS base
 
 COPY --chown=root:root /mirrorlist /etc/pacman.d/mirrorlist
 
